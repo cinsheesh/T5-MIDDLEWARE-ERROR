@@ -1,0 +1,128 @@
+@baseUrl = http://localhost:3000
+@apiKey = rahasia123
+
+### Daftar semua buku
+GET {{baseUrl}}/buku
+
+### Filter buku berdasarkan kategori
+GET {{baseUrl}}/buku?kategori=sains
+
+### Detail satu buku
+GET {{baseUrl}}/buku/1
+
+### Buku yang tidak ditemukan: harus 404 NOT_FOUND
+GET {{baseUrl}}/buku/999
+
+### URL yang tidak dikenal: harus 404 ROUTE_NOT_FOUND
+GET {{baseUrl}}/xyz
+
+### Menambahkan buku baru: harus 201 Created
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "Filosofi Teras",
+    "penulis": "Henry Manampiring",
+    "tahun": 2018,
+    "stok": 4,
+    "kategori": "novel"
+}
+
+### POST tanpa API key: harus 401 Unauthorized
+POST {{baseUrl}}/buku
+Content-Type: application/json
+
+{
+    "judul": "Negeri 5 Menara",
+    "penulis": "Ahmad Fuadi",
+    "tahun": 2009,
+    "stok": 3,
+    "kategori": "novel"
+}
+
+### POST data tidak valid: harus 422 VALIDATION_ERROR
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "AB",
+    "penulis": "An",
+    "tahun": 2030,
+    "stok": -5,
+    "kategori": "komik"
+}
+
+### POST judul duplikat: harus 409 JUDUL_DUPLIKAT
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "laskar pelangi",
+    "penulis": "Andrea Hirata",
+    "tahun": 2005,
+    "stok": 3,
+    "kategori": "novel"
+}
+
+### DELETE buku: harus 204 No Content
+DELETE {{baseUrl}}/buku/3
+x-api-key: {{apiKey}}
+
+### DELETE buku tidak ditemukan: harus 404 NOT_FOUND
+DELETE {{baseUrl}}/buku/999
+x-api-key: {{apiKey}}
+
+### PUT mengubah data buku: harus 200 OK
+PUT {{baseUrl}}/buku/2
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "Bumi Manusia Edisi Baru",
+    "penulis": "Pramoedya Ananta Toer",
+    "tahun": 1980,
+    "stok": 8,
+    "kategori": "novel"
+}
+
+### PUT buku tidak ditemukan: harus 404 NOT_FOUND
+PUT {{baseUrl}}/buku/999
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "Pemrograman Web Modern",
+    "penulis": "Andi Saputra",
+    "tahun": 2024,
+    "stok": 5,
+    "kategori": "sains"
+}
+
+### POST menguji error server: harus 500
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "Dasar Pemrograman Python",
+    "penulis": "Andi Saputra",
+    "tahun": 2024,
+    "stok": 5,
+    "kategori": "sains"
+}
+
+### POST setelah perbaikan: harus 201 Created
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+    "judul": "Belajar JavaScript Modern",
+    "penulis": "Andi Saputra",
+    "tahun": 2024,
+    "stok": 5,
+    "kategori": "sains"
+}
